@@ -35,4 +35,9 @@ public class ScoreboardController : MonoBehaviour {
     {
         this._scoreValue += scoreUpdate;
     }
+
+    public void RemoveLife(int lifeUpdate)
+    {
+        this._livesValue -= lifeUpdate;
+    }
 }

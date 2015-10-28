@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class Speed {
@@ -48,16 +50,17 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
+
 	// resets the gameObject
-	private void _Reset() {
+	void _Reset() {
 		this._CurrentSpeed = Random.Range (speed.minSpeed, speed.maxSpeed);
 		Vector2 resetPosition = new Vector2 (Random.Range(boundary.xMin, boundary.xMax), boundary.yMax);
 		gameObject.GetComponent<Transform> ().position = resetPosition;
-	}
+    }
 
+    // Find reference of ScoreboardController and assign to _scoreboardController
     private void _GetScoreboardController()
     {
-        // Find reference of ScoreboardController and assign to _scoreboardController
         GameObject scoreboardControllerObject = GameObject.FindGameObjectWithTag("ScoreboardController");
         if ( scoreboardControllerObject != null )
         {
@@ -66,6 +69,16 @@ public class EnemyController : MonoBehaviour {
         if ( scoreboardControllerObject == null )
         {
             Debug.Log("Cannot find 'ScoreboardController' script");
+        }
+    }
+
+    
+    void OnTriggerEnter2D ( Collider2D otherGameObject )
+    {
+        // Reset position on player collision
+        if ( otherGameObject.tag == "Player" )
+        {
+            this._Reset();
         }
     }
 }
