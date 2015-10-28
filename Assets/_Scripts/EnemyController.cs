@@ -16,14 +16,21 @@ public class EnemyController : MonoBehaviour {
 	// PUBLIC INSTANCE VARIABLES
 	public Speed speed;
 	public Boundary boundary;
+    public int tankValue = 10;
 
 	// PRIVATE INSTANCE VARIABLES
 	private float _CurrentSpeed;
 	private float _CurrentDrift;
+    private ScoreboardController _scoreboardController; // reference to ScoreboardController
+    
 
 	// Use this for initialization
 	void Start () {
 		this._Reset ();
+
+        // Get Reference to ScoreboardController
+	    this._GetScoreboardController();
+
 	}
 	
 	// Update is called once per frame
@@ -35,6 +42,9 @@ public class EnemyController : MonoBehaviour {
 		// Check bottom boundary
 		if (currentPosition.y <= boundary.yMin) {
 			this._Reset();
+		    
+            // Update player score with 10 points every time a tank resets
+		    this._scoreboardController.AddScore(tankValue);
 		}
 	}
 
@@ -44,4 +54,18 @@ public class EnemyController : MonoBehaviour {
 		Vector2 resetPosition = new Vector2 (Random.Range(boundary.xMin, boundary.xMax), boundary.yMax);
 		gameObject.GetComponent<Transform> ().position = resetPosition;
 	}
+
+    private void _GetScoreboardController()
+    {
+        // Find reference of ScoreboardController and assign to _scoreboardController
+        GameObject scoreboardControllerObject = GameObject.FindGameObjectWithTag("ScoreboardController");
+        if ( scoreboardControllerObject != null )
+        {
+            this._scoreboardController = scoreboardControllerObject.GetComponent<ScoreboardController>();
+        }
+        if ( scoreboardControllerObject == null )
+        {
+            Debug.Log("Cannot find 'ScoreboardController' script");
+        }
+    }
 }

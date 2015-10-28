@@ -7,24 +7,32 @@ public class ScoreboardController : MonoBehaviour {
     public Text scoreLabel;
     public Text livesLabel;
 
-
-    private int _score = 0;
-    private int _lives = -5;
+    
+    // PRIVATE INSTANCE VARIABLES
+    private int _scoreValue = 0;
+    private int _livesValue = 5;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+	    
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        _ScoreUpdate();
+    }
 
     //  PRIVATE METHODS
     private void _ScoreUpdate ()
     {
-        this.scoreLabel.text = "Score: " + this._score;
-        this.livesLabel.text = "Lives: " + this._lives;
+        this.scoreLabel.text = "Score: " + this._scoreValue;
+        this.livesLabel.text = "Lives: " + this._livesValue;
+    }
+
+    // Allow other gameObjects to update score value 
+    public void AddScore ( int scoreUpdate )
+    {
+        this._scoreValue += scoreUpdate;
     }
 }
